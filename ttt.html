@@ -92,24 +92,27 @@ let playerWho = document.querySelector("h2");
 
     function turn(boxId, player) {
         boxId = parseInt(boxId);
+
+        let theBoxId = document.getElementById(boxId);
+
         board[boxId] = player;
       
-        if(document.getElementById(boxId).innerText.length < 1){
+        if(theBoxId.innerText.length < 1){
            playerWho.innerText = `Player ${switchPlayer}'s turn.`;
         }
        
-        if(switchPlayer === "x" && !oArray.includes(boxId) && document.getElementById(boxId).innerText.length < 1 ) { 
+        if(switchPlayer === "x" && !oArray.includes(boxId) && theBoxId.innerText.length < 1 ) { 
             switchPlayer = "o" 
             oArray.push(boxId)
         }
-        else if (switchPlayer === "o" && !xArray.includes(boxId) && document.getElementById(boxId).innerText.length < 1){ 
+        else if (switchPlayer === "o" && !xArray.includes(boxId) && theBoxId.innerText.length < 1){ 
             switchPlayer = "x" 
             xArray.push(boxId);
         }
       
       
-       if(document.getElementById(boxId).innerText.length < 1){
-             document.getElementById(boxId).innerText = switchPlayer; // x/o on Click
+       if(theBoxId.innerText.length < 1){
+             theBoxId.innerText = switchPlayer; // x/o on Click
         }
      
          
