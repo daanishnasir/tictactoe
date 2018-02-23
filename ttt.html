@@ -42,35 +42,31 @@
 
 <script>
 
+let board;
 
-    let board;
-    //designate players
-    const playerX = "x";
-    const playerO = "o";
-    let switchPlayer = "o";
+//designate players
+const playerX = "x";
+const playerO = "o";
+let switchPlayer = "o";
+let xArray = [];
+let oArray = [];
 
-    let xArray = [];
-    let oArray = [];
+//All the possible ways to win using box id's
+const waysToWin = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [6, 4, 2]
+]
 
-    //All the possible ways to win using box id's
-    const waysToWin = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [6, 4, 2]
-    ]
-
-    let boxes = document.querySelectorAll('.box');
-
-    let winner = document.querySelector('.endgame');
-
-    let text = document.querySelector('.text');
-
-    let playerWho = document.querySelector("h2");
+let boxes = document.querySelectorAll('.box');
+let winner = document.querySelector('.endgame');
+let text = document.querySelector('.text');
+let playerWho = document.querySelector("h2");
 
     const startGame = () => {
      
@@ -82,41 +78,41 @@
             boxes[i].style.removeProperty('background-color');
             boxes[i].addEventListener('click', turnClick, false); // onClick func
 	    }
-
          xArray = [];
          oArray = [];
-
          playerWho.innerText = "Player x's turn.";
     }
-
     startGame();
 
     function turnClick(box) {
         
-        let player = ""
-
+      let player = ""
 	    turn(box.target.id, playerX);
     }
-
     function turn(boxId, player) {
 
+        boxId = parseInt(boxId);
         board[boxId] = player;    
 
         playerWho.innerText = `Player ${switchPlayer}'s turn.`
 
-        if(switchPlayer === "x") { 
+        if(switchPlayer === "x" && !oArray.includes(boxId)) { 
             switchPlayer = "o" 
-            oArray.push(parseInt(boxId))
+            oArray.push(boxId)
         }
-        else if (switchPlayer === "o"){ 
+        else if (switchPlayer === "o" && !xArray.includes(parseInt(boxId))){ 
             switchPlayer = "x" 
-            xArray.push(parseInt(boxId));
+            xArray.push(boxId);
         }
-        document.getElementById(boxId).innerText = switchPlayer; // x/o on Click
-
+      
+      
+       if(document.getElementById(boxId).innerText.length < 1){
+             document.getElementById(boxId).innerText = switchPlayer; // x/o on Click
+        }
+         
+   
         if(xArray.length > 2 || oArray.length > 2){
             let currentArray = [];
-
             if(switchPlayer === "x") currentArray = xArray;
             else currentArray = oArray;
                       
@@ -129,7 +125,6 @@
         for(i=0; i < waysToWin.length; i++){
   
             let count = 0;
-
             for(j = 0; j < arr.length; j++){
                 
                 if(waysToWin[i].includes(arr[j])){
@@ -137,13 +132,9 @@
                 }
                             
             }
-
             if(count === 3) {
-
                 winner.style.opacity = "1";
-
                 text.innerText = `Player ${switchPlayer} wins!`
-
             }
         }        
     }
