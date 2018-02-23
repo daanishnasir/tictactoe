@@ -89,6 +89,7 @@ let playerWho = document.querySelector("h2");
       let player = ""
 	    turn(box.target.id, playerX);
     }
+
     function turn(boxId, player) {
         boxId = parseInt(boxId);
         board[boxId] = player;
@@ -97,12 +98,11 @@ let playerWho = document.querySelector("h2");
            playerWho.innerText = `Player ${switchPlayer}'s turn.`;
         }
        
-        
         if(switchPlayer === "x" && !oArray.includes(boxId) && document.getElementById(boxId).innerText.length < 1 ) { 
             switchPlayer = "o" 
             oArray.push(boxId)
         }
-        else if (switchPlayer === "o" && !xArray.includes(parseInt(boxId)) && document.getElementById(boxId).innerText.length < 1){ 
+        else if (switchPlayer === "o" && !xArray.includes(boxId) && document.getElementById(boxId).innerText.length < 1){ 
             switchPlayer = "x" 
             xArray.push(boxId);
         }
@@ -112,8 +112,7 @@ let playerWho = document.querySelector("h2");
              document.getElementById(boxId).innerText = switchPlayer; // x/o on Click
         }
      
-      
-      
+         
         if(xArray.length > 2 || oArray.length > 2){
             let currentArray = [];
             if(switchPlayer === "x") currentArray = xArray;
@@ -122,6 +121,7 @@ let playerWho = document.querySelector("h2");
             checkThree(currentArray);
         }            
     }
+    
     function checkThree (arr){
        
         for(i=0; i < waysToWin.length; i++){
