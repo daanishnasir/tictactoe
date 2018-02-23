@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Alkami Tic Tac Toe</title>
+</head>
+<body>
+    
+	<table>
+		<tr>
+			<td class="box" id="0" ></td>
+			<td class="box" id="1" ></td>
+			<td class="box" id="2" ></td>
+		</tr>
+		<tr>
+			<td class="box" id="3" ></td>
+			<td class="box" id="4" ></td>
+			<td class="box" id="5" ></td>
+		</tr>
+		<tr>
+			<td class="box" id="6" ></td>
+			<td class="box" id="7" ></td>
+			<td class="box" id="8" ></td>
+		</tr>
+    </table>
+    
+
+    <button onClick="startGame()"> Restart </button>
+
+    <div class="endgame">
+        <div class="text"> </div>
+    </div>
+
+    <div class="playerWho">
+        <h2></h2>
+    </div>
+
+
+
+<script>
+
+
+    let board;
+    //designate players
+    const playerX = "x";
+    const playerO = "o";
+    let switchPlayer = "o";
+
+    let xArray = [];
+    let oArray = [];
+
+    //All the possible ways to win using box id's
+    const waysToWin = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [6, 4, 2]
+    ]
+
+    let boxes = document.querySelectorAll('.box');
+
+    let winner = document.querySelector('.endgame');
+
+    let text = document.querySelector('.text');
+
+    let playerWho = document.querySelector("h2");
+
+    // console.log(boxes)
+
+    const startGame = () => {
+     
+        document.querySelector('.endgame').style.opacity = "0";
+        board = [0,1,2,3,4,5,6,7,8];
+        
+        for (var i = 0; i < boxes.length; i++) {
+            boxes[i].innerText = '';
+            boxes[i].style.removeProperty('background-color');
+            boxes[i].addEventListener('click', turnClick, false); // onClick func
+	    }
+
+         xArray = [];
+         oArray = [];
+
+         playerWho.innerText = "Player x's turn.";
+    }
+
+    startGame();
+
+    function turnClick(box) {
+        let player = ""
+        console.log(box.target.id)
+	    turn(box.target.id, playerX);
+
+    }
+
+    function turn(boxId, player) {
+
+        //let cache = { };
+
+        board[boxId] = player;    //finds index to be on board
+
+        // if(cache[player] !== player){
+        //     player = "o"
+        // }
+        playerWho.innerText = `Player ${switchPlayer}'s turn.`
+
+        if(switchPlayer === "x") { 
+            switchPlayer = "o" 
+            oArray.push(parseInt(boxId))
+        }
+        else if (switchPlayer === "o"){ 
+            switchPlayer = "x" 
+            xArray.push(parseInt(boxId));
+        }
+        document.getElementById(boxId).innerText = switchPlayer; // x/o on Click
+
+        console.log('xArr:', xArray)
+        console.log('oArr:', oArray)
+
+        if(xArray.length > 2 || oArray.length > 2){
+            let currentArray = [];
+
+            if(switchPlayer === "x") currentArray = xArray;
+            else currentArray = oArray;
+            
+            console.log(currentArray);
+            
+            checkThree(currentArray);
+        }
+             
+    }
+
+    function checkThree (arr){
+        console.log(arr);
+        
+        for(i=0; i < waysToWin.length; i++){
+  
+            let count = 0;
+
+            for(j = 0; j < arr.length; j++){
+                
+                if(waysToWin[i].includes(arr[j])){
+                    count++;
+                }
+             
+                
+            }
+
+            if(count === 3) {
+                console.log('winner yo')
+                //   winner.style.display = "flex";
+                winner.style.opacity = "1";
+
+                text.innerText = `Player ${switchPlayer} wins!`
+
+                // winner.innerText = `${switchPlayer} wins!`;
+            }
+
+        }        
+
+
+    }
+
+
+
+</script>
+
+</body>
+</html>
