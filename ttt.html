@@ -100,7 +100,7 @@ let playerWho = document.querySelector("h2");
             switchPlayer = "o" 
             oArray.push(boxId)
         }
-        else if (switchPlayer === "o" && !xArray.includes(parseInt(boxId))){ 
+        else if (switchPlayer === "o" && !xArray.includes(boxId)){ 
             switchPlayer = "x" 
             xArray.push(boxId);
         }
