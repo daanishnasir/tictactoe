@@ -1,2 +1,2 @@
 # tictactoe
-Alkami Assessment. HTML/CSS/Javascript. 
+HTML/CSS/Javascript. 
